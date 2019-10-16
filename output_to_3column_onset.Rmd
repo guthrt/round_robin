@@ -1,0 +1,171 @@
+---
+title: "onset_file_creator"
+author: "Taylor Guthrie"
+date: "April 11, 2019"
+output: html_document
+---
+
+
+```{r}
+library(tidyverse)
+library(rio)
+library(janitor)
+```
+
+
+
+```{r}
+#make a list of the directories for each participant
+dirs <- list.dirs(path = "..", recursive = F)
+dirs <- grep("^../r", dirs, value = T)
+runs <- list("runA", "runB", "runC", "runD", "runE")
+run_length <- length(runs)
+
+#Use the items in the dirs list to specify path to data files for each subject and create list of all data files
+dir_length <- length(dirs)
+files <- NULL
+file_identity <- NULL
+for (x in (1:dir_length)) {
+  di = dirs[x]
+  run <- runs[x]
+  filename <- list.files(path = sprintf("%s/data", di), pattern = ".csv")
+  filename <- paste(run, filename, sep = "_")
+  files <- rbind(files, filename)
+}
+
+#Split the file name to obtain the pieces you need to identify the path and import each file and then add each df to a list
+dl <- list()
+file_len <- length(files)
+
+for (x in (1:file_len)) {
+  di <- paste("../", substr(files[x], 1, 4), sep = "")
+  f <- substr(files[x], 6, nchar(files[x]))
+  sid <- substr(f, 1, 7)
+  d <- import(sprintf("%s/data/%s", di, f))
+  d <- cbind(run = run, d)
+  d <- cbind(sid = sid, d)
+  dl[[x]] <- d
+}
+
+
+#pull loc data
+loc_file <- list.files(path = "../localizer/data", pattern = ".csv")
+loc <- import(sprintf("../localizer/data/%s", loc_file))
+```
+
+
+
+
+```{r, edit}
+############################################################                       #
+#Edit the names of the subjects so that they match the     #
+#names used in this subjects specific scanner csv files    #
+#Then edit the output names making sure that they are in   #
+#the same order as the names in the name vector so that    #
+#tar1 is S01, tar2 is S02, tar3 is S03 etc..               #
+############################################################
+
+names <- c("Self", "name1", "name2", "name3", "name4", "name5")
+output_names <- c("tar1", "tar2", "tar3", "tar4", "tar5", "tar6")
+
+```
+
+
+
+```{r, loc_target}
+loc_names <- c("Self", "Ordinary American")
+loc_output_names <- c("Self", "Ordinary_American")
+loc_task <- "loc"
+
+for (j in 1:length(loc_names)) {
+   file_data <- loc
+   name <- loc_names[j]
+   initial_trig <- file_data$onset[5]
+   output_name <- loc_output_names[j]
+   temp <- file_data %>% 
+   filter(target == sprintf("%s", name)) %>% 
+   mutate(onset = onset - initial_trig) %>% 
+   select(onset) %>% 
+   mutate(duration = 2) %>% 
+   mutate(magnitude = 1)
+   write.table(temp, file = sprintf("3_column_onsets/%s/%s_%s.txt", loc_task, output_name, loc_task), append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+}
+```
+
+
+
+
+
+```{r, all_runs_target}
+dl_len <- length(dl)
+tasks <- c("runA", "runB", "runC", "runD", "runE")
+
+for (i in 1:length(files)) {
+  file <- dl[[i]]
+  task <- tasks[i]
+  for (j in 1:length(names)) {
+   name <- names[j]
+   initial_trig <- file$onset[5]
+   s_id <- output_names[j]
+   temp <- file %>% 
+   filter(target == sprintf("%s", name)) %>% 
+   mutate(onset = onset - initial_trig) %>% 
+   select(onset) %>% 
+   mutate(duration = 2) %>% 
+   mutate(magnitude = 1)
+   write.table(temp, file = sprintf("3_column_onsets/%s/%s_%s.txt", task, s_id, task), append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+  }
+}
+
+```
+
+
+
+
+```{r, loc_target_valence}
+valence <- c("pos", "neg")
+
+for (j in 1:length(loc_names)) { 
+   file_data <- loc
+   name <- loc_names[j]
+   initial_trig <- file_data$onset[2]
+   for (k in 1:length(valence)) {
+     val <- valence[k]
+     temp <- file_data %>% 
+     filter(target == sprintf("%s", name) & condition == sprintf("%s", val)) %>% 
+     mutate(onset = onset - initial_trig) %>% 
+     select(onset) %>% 
+     mutate(duration = 2) %>% 
+     mutate(magnitude = 1)
+     write.table(temp, file = sprintf("3_column_onsets/%s/%s_%s_%s.txt", loc_task, name, val, loc_task), append = FALSE, quote = FALSE, sep = " ", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+  }
+}
+```
+
+
+
+
+
+```{r, all_runs_target_valence}
+for (i in 1:length(files)) {
+  file_data <- dl[[i]]
+  task <- tasks[i]
+  for (j in 1:length(names)) {
+   name <- names[j]
+   initial_trig <- file_data$onset[2]
+   s_id <- output_names[j]
+   for (k in 1:length(valence)) {
+     val <- valence[k]
+     temp <- file_data %>% 
+     filter(target == sprintf("%s", name) & condition == sprintf("%s", val)) %>% 
+     mutate(onset = onset - initial_trig) %>% 
+     select(onset) %>% 
+     mutate(duration = 2) %>% 
+     mutate(magnitude = 1)
+     write.table(temp, file = sprintf("3_column_onsets/%s/%s_%s_%s.txt", task, s_id, val, task), append = FALSE, quote = FALSE, sep = " ", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+   }
+  }
+}
+```
+
+

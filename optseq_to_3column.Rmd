@@ -1,0 +1,478 @@
+---
+title: "Optseq"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(rio)
+library(janitor)
+```
+
+
+
+```{r, run1}
+opt <- import("loc1-001.txt")
+
+colnames(opt) <- c("onset", "condition", "duration", "weight", "dis")
+
+opt <- opt %>% 
+  select(-starts_with("dis")) %>% 
+  filter(condition != 0)
+
+tar1_pos_a <- opt %>% 
+  filter(condition == 1) %>% 
+  select(-condition)
+
+tar1_neg_a <- opt %>% 
+  filter(condition == 2) %>% 
+  select(-condition)
+
+tar2_pos_a <- opt %>% 
+  filter(condition == 3) %>% 
+  select(-condition)
+
+tar2_neg_a <- opt %>% 
+  filter(condition == 4) %>% 
+  select(-condition)
+```
+
+
+```{r, run1_output}
+write.table(tar1_pos_a, file = "loc/tar1_pos_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar1_neg_a, file = "loc/tar1_neg_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_pos_a, file = "loc/tar2_pos_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_neg_a, file = "loc/tar2_neg_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+```
+
+
+
+```{r, run1}
+opt <- import("test1-001.txt")
+
+colnames(opt) <- c("onset", "condition", "duration", "weight", "dis")
+
+opt <- opt %>% 
+  select(-starts_with("dis")) %>% 
+  filter(condition != 0)
+
+tar1_pos_a <- opt %>% 
+  filter(condition == 1) %>% 
+  select(-condition)
+
+tar1_neg_a <- opt %>% 
+  filter(condition == 2) %>% 
+  select(-condition)
+
+tar2_pos_a <- opt %>% 
+  filter(condition == 3) %>% 
+  select(-condition)
+
+tar2_neg_a <- opt %>% 
+  filter(condition == 4) %>% 
+  select(-condition)
+
+tar3_pos_a <- opt %>% 
+  filter(condition == 5) %>% 
+  select(-condition)
+
+tar3_neg_a <- opt %>% 
+  filter(condition == 6) %>% 
+  select(-condition)
+
+tar4_pos_a <- opt %>% 
+  filter(condition == 7) %>% 
+  select(-condition)
+
+tar4_neg_a <- opt %>% 
+  filter(condition == 8) %>% 
+  select(-condition)
+
+tar5_pos_a <- opt %>% 
+  filter(condition == 9) %>% 
+  select(-condition)
+
+tar5_neg_a <- opt %>% 
+  filter(condition == 10) %>% 
+  select(-condition)
+
+tar6_pos_a <- opt %>% 
+  filter(condition == 11) %>% 
+  select(-condition)
+
+tar6_neg_a <- opt %>% 
+  filter(condition == 12) %>% 
+  select(-condition)
+```
+
+
+```{r, run1_output}
+write.table(tar1_pos_a, file = "run1/tar1_pos_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar1_neg_a, file = "run1/tar1_neg_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_pos_a, file = "run1/tar2_pos_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_neg_a, file = "run1/tar2_neg_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_pos_a, file = "run1/tar3_pos_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_neg_a, file = "run1/tar3_neg_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_pos_a, file = "run1/tar4_pos_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_neg_a, file = "run1/tar4_neg_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_pos_a, file = "run1/tar5_pos_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_neg_a, file = "run1/tar5_neg_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_pos_a, file = "run1/tar6_pos_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_neg_a, file = "run1/tar6_neg_a.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+```
+
+
+```{r, run2}
+opt <- import("test1-002.txt")
+
+colnames(opt) <- c("onset", "condition", "duration", "weight", "dis")
+
+opt <- opt %>% 
+  select(-starts_with("dis")) %>% 
+  filter(condition != 0)
+
+tar1_pos_b <- opt %>% 
+  filter(condition == 1) %>% 
+  select(-condition)
+
+tar1_neg_b <- opt %>% 
+  filter(condition == 2) %>% 
+  select(-condition)
+
+tar2_pos_b <- opt %>% 
+  filter(condition == 3) %>% 
+  select(-condition)
+
+tar2_neg_b <- opt %>% 
+  filter(condition == 4) %>% 
+  select(-condition)
+
+tar3_pos_b <- opt %>% 
+  filter(condition == 5) %>% 
+  select(-condition)
+
+tar3_neg_b <- opt %>% 
+  filter(condition == 6) %>% 
+  select(-condition)
+
+tar4_pos_b <- opt %>% 
+  filter(condition == 7) %>% 
+  select(-condition)
+
+tar4_neg_b <- opt %>% 
+  filter(condition == 8) %>% 
+  select(-condition)
+
+tar5_pos_b <- opt %>% 
+  filter(condition == 9) %>% 
+  select(-condition)
+
+tar5_neg_b <- opt %>% 
+  filter(condition == 10) %>% 
+  select(-condition)
+
+tar6_pos_b <- opt %>% 
+  filter(condition == 11) %>% 
+  select(-condition)
+
+tar6_neg_b <- opt %>% 
+  filter(condition == 12) %>% 
+  select(-condition)
+```
+
+
+```{r, run2_output}
+write.table(tar1_pos_b, file = "run2/tar1_pos_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar1_neg_b, file = "run2/tar1_neg_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_pos_b, file = "run2/tar2_pos_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_neg_b, file = "run2/tar2_neg_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_pos_b, file = "run2/tar3_pos_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_neg_b, file = "run2/tar3_neg_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_pos_b, file = "run2/tar4_pos_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_neg_b, file = "run2/tar4_neg_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_pos_b, file = "run2/tar5_pos_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_neg_b, file = "run2/tar5_neg_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_pos_b, file = "run2/tar6_pos_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_neg_b, file = "run2/tar6_neg_b.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+```
+
+```{r, run3}
+opt <- import("test1-003.txt")
+
+colnames(opt) <- c("onset", "condition", "duration", "weight", "dis")
+
+opt <- opt %>% 
+  select(-starts_with("dis")) %>% 
+  filter(condition != 0)
+
+tar1_pos_c <- opt %>% 
+  filter(condition == 1) %>% 
+  select(-condition)
+
+tar1_neg_c <- opt %>% 
+  filter(condition == 2) %>% 
+  select(-condition)
+
+tar2_pos_c <- opt %>% 
+  filter(condition == 3) %>% 
+  select(-condition)
+
+tar2_neg_c <- opt %>% 
+  filter(condition == 4) %>% 
+  select(-condition)
+
+tar3_pos_c <- opt %>% 
+  filter(condition == 5) %>% 
+  select(-condition)
+
+tar3_neg_c <- opt %>% 
+  filter(condition == 6) %>% 
+  select(-condition)
+
+tar4_pos_c <- opt %>% 
+  filter(condition == 7) %>% 
+  select(-condition)
+
+tar4_neg_c <- opt %>% 
+  filter(condition == 8) %>% 
+  select(-condition)
+
+tar5_pos_c <- opt %>% 
+  filter(condition == 9) %>% 
+  select(-condition)
+
+tar5_neg_c <- opt %>% 
+  filter(condition == 10) %>% 
+  select(-condition)
+
+tar6_pos_c <- opt %>% 
+  filter(condition == 11) %>% 
+  select(-condition)
+
+tar6_neg_c <- opt %>% 
+  filter(condition == 12) %>% 
+  select(-condition)
+```
+
+
+```{r, run3_output}
+write.table(tar1_pos_c, file = "run3/tar1_pos_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar1_neg_c, file = "run3/tar1_neg_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_pos_c, file = "run3/tar2_pos_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_neg_c, file = "run3/tar2_neg_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_pos_c, file = "run3/tar3_pos_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_neg_c, file = "run3/tar3_neg_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_pos_c, file = "run3/tar4_pos_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_neg_c, file = "run3/tar4_neg_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_pos_c, file = "run3/tar5_pos_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_neg_c, file = "run3/tar5_neg_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_pos_c, file = "run3/tar6_pos_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_neg_c, file = "run3/tar6_neg_c.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+```
+
+```{r, run4}
+opt <- import("test1-004.txt")
+
+colnames(opt) <- c("onset", "condition", "duration", "weight", "dis")
+
+opt <- opt %>% 
+  select(-starts_with("dis")) %>% 
+  filter(condition != 0)
+
+tar1_pos_d <- opt %>% 
+  filter(condition == 1) %>% 
+  select(-condition)
+
+tar1_neg_d <- opt %>% 
+  filter(condition == 2) %>% 
+  select(-condition)
+
+tar2_pos_d <- opt %>% 
+  filter(condition == 3) %>% 
+  select(-condition)
+
+tar2_neg_d <- opt %>% 
+  filter(condition == 4) %>% 
+  select(-condition)
+
+tar3_pos_d <- opt %>% 
+  filter(condition == 5) %>% 
+  select(-condition)
+
+tar3_neg_d <- opt %>% 
+  filter(condition == 6) %>% 
+  select(-condition)
+
+tar4_pos_d <- opt %>% 
+  filter(condition == 7) %>% 
+  select(-condition)
+
+tar4_neg_d <- opt %>% 
+  filter(condition == 8) %>% 
+  select(-condition)
+
+tar5_pos_d <- opt %>% 
+  filter(condition == 9) %>% 
+  select(-condition)
+
+tar5_neg_d <- opt %>% 
+  filter(condition == 10) %>% 
+  select(-condition)
+
+tar6_pos_d <- opt %>% 
+  filter(condition == 11) %>% 
+  select(-condition)
+
+tar6_neg_d <- opt %>% 
+  filter(condition == 12) %>% 
+  select(-condition)
+```
+
+
+```{r, run4_output}
+write.table(tar1_pos_d, file = "run4/tar1_pos_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar1_neg_d, file = "run4/tar1_neg_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_pos_d, file = "run4/tar2_pos_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_neg_d, file = "run4/tar2_neg_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_pos_d, file = "run4/tar3_pos_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_neg_d, file = "run4/tar3_neg_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_pos_d, file = "run4/tar4_pos_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_neg_d, file = "run4/tar4_neg_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_pos_d, file = "run4/tar5_pos_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_neg_d, file = "run4/tar5_neg_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_pos_d, file = "run4/tar6_pos_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_neg_d, file = "run4/tar6_neg_d.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+```
+
+
+```{r, run5}
+opt <- import("test1-005.txt")
+
+colnames(opt) <- c("onset", "condition", "duration", "weight", "dis")
+
+opt <- opt %>% 
+  select(-starts_with("dis")) %>% 
+  filter(condition != 0)
+
+tar1_pos_e <- opt %>% 
+  filter(condition == 1) %>% 
+  select(-condition)
+
+tar1_neg_e <- opt %>% 
+  filter(condition == 2) %>% 
+  select(-condition)
+
+tar2_pos_e <- opt %>% 
+  filter(condition == 3) %>% 
+  select(-condition)
+
+tar2_neg_e <- opt %>% 
+  filter(condition == 4) %>% 
+  select(-condition)
+
+tar3_pos_e <- opt %>% 
+  filter(condition == 5) %>% 
+  select(-condition)
+
+tar3_neg_e <- opt %>% 
+  filter(condition == 6) %>% 
+  select(-condition)
+
+tar4_pos_e <- opt %>% 
+  filter(condition == 7) %>% 
+  select(-condition)
+
+tar4_neg_e <- opt %>% 
+  filter(condition == 8) %>% 
+  select(-condition)
+
+tar5_pos_e <- opt %>% 
+  filter(condition == 9) %>% 
+  select(-condition)
+
+tar5_neg_e <- opt %>% 
+  filter(condition == 10) %>% 
+  select(-condition)
+
+tar6_pos_e <- opt %>% 
+  filter(condition == 11) %>% 
+  select(-condition)
+
+tar6_neg_e <- opt %>% 
+  filter(condition == 12) %>% 
+  select(-condition)
+```
+
+
+```{r, run5_output}
+write.table(tar1_pos_e, file = "run5/tar1_pos_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar1_neg_e, file = "run5/tar1_neg_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_pos_e, file = "run5/tar2_pos_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar2_neg_e, file = "run5/tar2_neg_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_pos_e, file = "run5/tar3_pos_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar3_neg_e, file = "run5/tar3_neg_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_pos_e, file = "run5/tar4_pos_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar4_neg_e, file = "run5/tar4_neg_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_pos_e, file = "run5/tar5_pos_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar5_neg_e, file = "run5/tar5_neg_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_pos_e, file = "run5/tar6_pos_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+
+write.table(tar6_neg_e, file = "run5/tar6_neg_e.txt", append = FALSE, quote = FALSE, sep = " ",  eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"))
+```

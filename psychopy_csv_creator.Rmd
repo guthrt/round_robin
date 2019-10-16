@@ -1,0 +1,1015 @@
+---
+title: "Randomizing"
+author: "Taylor Guthrie"
+date: "January 31, 2019"
+output: html_document
+---
+
+```{r, libraries}
+library(tidyverse)
+library(rio)
+library(janitor)
+```
+
+
+```{r, names}
+#####################################################
+#####################################################
+#Insert in the names of the participants here      ##
+#                                                  ##
+#Self is listed here as name1                      ##
+#Enter the names of the other 5 targets in name2-5 ##
+#                                                  ##
+#####################################################
+#####################################################
+names <- c("Self", "name2", "name3", "name4", "name5", "name6")
+```
+
+
+```{r, run_order}
+#indetify the run labels to randomize run order for each participant
+runs <- c("A", "B", "C", "D", "E")
+
+#randomize run order and export a hard copy text file in the participants folder
+run_order <- as.data.frame(sample(runs))
+export(run_order, "run_order.txt")
+```
+
+
+```{r, import_templates}
+#Import the psychopy templates that were manually created as was noted in the optseq_csv script
+
+#localizer
+loc <- import("./psychopy_templates/loc_template.csv")
+
+#run A
+runA <- import("./psychopy_templates/runA_template.csv")
+
+#run B
+runB <- import("./psychopy_templates/runB_template.csv")
+
+#run C
+runC <- import("./psychopy_templates/runC_template.csv")
+
+#run D
+runD <- import("./psychopy_templates/runD_template.csv")
+
+#run E
+runE <- import("./psychopy_templates/runE_template.csv")
+```
+
+
+```{r, import_loc_words}
+###########################################
+#Only need to run this chunk once         #
+#Same loc template used for all subjects  #
+############################################
+#
+##import word list
+#loc_words <- import("loc_words.xlsx") %>%
+#  clean_names()
+#
+##filter out positive and negative words 
+#loc_pos_words <- loc_words$word[1:18]
+#
+#loc_neg_words <- loc_words$word[19:36] 
+#
+##randomize order of words per target
+#loc_pos_words_t1 <- sample(loc_pos_words) 
+#loc_pos_words_t2 <- sample(loc_pos_words) 
+#
+#loc_neg_words_t1 <- sample(loc_neg_words) 
+#loc_neg_words_t2 <- sample(loc_neg_words)
+```
+
+
+
+```{r, words_loc}
+###########################################
+#Only need to run this chunk once         #
+#Same loc template used for all subjects  #
+###########################################
+#
+#Word assignment in the localizer is not randomized so this code should only be run 
+#the first time that the localizer is created and the result will be the template 
+#that will be used on all subjects 
+#
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 1] <- loc_pos_words_t1[1]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 2] <- loc_pos_words_t1[2]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 3] <- loc_pos_words_t1[3]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 4] <- loc_pos_words_t1[4]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 5] <- loc_pos_words_t1[5]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 6] <- loc_pos_words_t1[6]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 7] <- loc_pos_words_t1[7]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 8] <- loc_pos_words_t1[8]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 9] <- loc_pos_words_t1[9]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 10] <- loc_pos_words_t1[10]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 11] <- loc_pos_words_t1[11]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 12] <- loc_pos_words_t1[12]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 13] <- loc_pos_words_t1[13]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 14] <- loc_pos_words_t1[14]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 15] <- loc_pos_words_t1[15]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 16] <- loc_pos_words_t1[16]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 17] <- loc_pos_words_t1[17]
+#loc$word[loc$target == "tar1" & loc$condition == "pos" & loc$word == 18] <- loc_pos_words_t1[18]
+#
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 1] <- loc_neg_words_t1[1]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 2] <- loc_neg_words_t1[2]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 3] <- loc_neg_words_t1[3]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 4] <- loc_neg_words_t1[4]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 5] <- loc_neg_words_t1[5]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 6] <- loc_neg_words_t1[6]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 7] <- loc_neg_words_t1[7]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 8] <- loc_neg_words_t1[8]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 9] <- loc_neg_words_t1[9]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 10] <- loc_neg_words_t1[10]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 11] <- loc_neg_words_t1[11]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 12] <- loc_neg_words_t1[12]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 13] <- loc_neg_words_t1[13]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 14] <- loc_neg_words_t1[14]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 15] <- loc_neg_words_t1[15]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 16] <- loc_neg_words_t1[16]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 17] <- loc_neg_words_t1[17]
+#loc$word[loc$target == "tar1" & loc$condition == "neg" & loc$word == 18] <- loc_neg_words_t1[18]
+#
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 1] <- loc_pos_words_t2[1]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 2] <- loc_pos_words_t2[2]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 3] <- loc_pos_words_t2[3]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 4] <- loc_pos_words_t2[4]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 5] <- loc_pos_words_t2[5]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 6] <- loc_pos_words_t2[6]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 7] <- loc_pos_words_t2[7]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 8] <- loc_pos_words_t2[8]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 9] <- loc_pos_words_t2[9]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 10] <- loc_pos_words_t2[10]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 11] <- loc_pos_words_t2[11]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 12] <- loc_pos_words_t2[12]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 13] <- loc_pos_words_t2[13]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 14] <- loc_pos_words_t2[14]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 15] <- loc_pos_words_t2[15]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 16] <- loc_pos_words_t2[16]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 17] <- loc_pos_words_t2[17]
+#loc$word[loc$target == "tar2" & loc$condition == "pos" & loc$word == 18] <- loc_pos_words_t2[18]
+#
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 1] <- loc_neg_words_t2[1]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 2] <- loc_neg_words_t2[2]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 3] <- loc_neg_words_t2[3]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 4] <- loc_neg_words_t2[4]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 5] <- loc_neg_words_t2[5]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 6] <- loc_neg_words_t2[6]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 7] <- loc_neg_words_t2[7]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 8] <- loc_neg_words_t2[8]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 9] <- loc_neg_words_t2[9]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 10] <- loc_neg_words_t2[10]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 11] <- loc_neg_words_t2[11]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 12] <- loc_neg_words_t2[12]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 13] <- loc_neg_words_t2[13]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 14] <- loc_neg_words_t2[14]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 15] <- loc_neg_words_t2[15]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 16] <- loc_neg_words_t2[16]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 17] <- loc_neg_words_t2[17]
+#loc$word[loc$target == "tar2" & loc$condition == "neg" & loc$word == 18] <- loc_neg_words_t2[18]
+
+```
+
+
+```{r, names_loc}
+###########################################
+#Only need to run this chunk once         #
+#Same loc template used for all subjects  #
+###########################################
+#
+##This section as well will be consistent for all subjects and will only need to be run 
+##once to set up the template that will be used for everyone
+#
+#loc$target[loc$target == "tar1"] <- "Self"
+#loc$target[loc$target == "tar2"] <- "Ordinary American"
+#
+##Fill in all blank cells with spaces so that psychopy will work correctly 
+#loc$target[loc$target == ""] <- " "
+#loc$word[is.na(loc$word)] <- " "
+```
+
+
+
+```{r, export_loc}
+###########################################
+#Only need to run this chunk once         #
+#Same loc template used for all subjects  #
+###########################################
+#
+#export(loc, "loc.xlsx")
+```
+
+
+
+```{r, import_words}
+#import word list
+words <- import("words.xlsx") %>%
+  clean_names()
+
+#filter out positive and negative words 
+pos_words <- words %>% 
+  filter(valance == "pos")
+
+neg_words <- words %>% 
+  filter(valance == "neg")
+```
+
+
+
+```{r, words_runA}
+#randomize the order of the 6 positive and 6 negative words for each of the 6 participants 
+#Using the first 6 positive and first 6 negative words for run A
+runA_pos_words <- pos_words$word[1:6]
+
+ran_pos_words_n1 <- sample(runA_pos_words)
+ran_pos_words_n2 <- sample(runA_pos_words)
+ran_pos_words_n3 <- sample(runA_pos_words)
+ran_pos_words_n4 <- sample(runA_pos_words)
+ran_pos_words_n5 <- sample(runA_pos_words)
+ran_pos_words_n6 <- sample(runA_pos_words)
+
+runA_neg_words <- neg_words$word[1:6]
+
+ran_neg_words_n1 <- sample(runA_neg_words)
+ran_neg_words_n2 <- sample(runA_neg_words)
+ran_neg_words_n3 <- sample(runA_neg_words)
+ran_neg_words_n4 <- sample(runA_neg_words)
+ran_neg_words_n5 <- sample(runA_neg_words)
+ran_neg_words_n6 <- sample(runA_neg_words)
+
+#target 1's positive and negative words logical index to replace what is in the valence column
+#Had to modify the optseq output to have pos1, pos3 .. etc for each target to make indexing possible 
+#You should only have to do this once at the initial set up of the experiment
+
+#target 1's positve and negative words
+runA$word[runA$target == "tar1" & runA$condition == "pos" & runA$word == 1] <- ran_pos_words_n1[1]
+runA$word[runA$target == "tar1" & runA$condition == "pos" & runA$word == 2] <- ran_pos_words_n1[2]
+runA$word[runA$target == "tar1" & runA$condition == "pos" & runA$word == 3] <- ran_pos_words_n1[3]
+runA$word[runA$target == "tar1" & runA$condition == "pos" & runA$word == 4] <- ran_pos_words_n1[4]
+runA$word[runA$target == "tar1" & runA$condition == "pos" & runA$word == 5] <- ran_pos_words_n1[5]
+runA$word[runA$target == "tar1" & runA$condition == "pos" & runA$word == 6] <- ran_pos_words_n1[6]
+
+runA$word[runA$target == "tar1" & runA$condition == "neg" & runA$word == 1] <- ran_neg_words_n1[1]
+runA$word[runA$target == "tar1" & runA$condition == "neg" & runA$word == 2] <- ran_neg_words_n1[2]
+runA$word[runA$target == "tar1" & runA$condition == "neg" & runA$word == 3] <- ran_neg_words_n1[3]
+runA$word[runA$target == "tar1" & runA$condition == "neg" & runA$word == 4] <- ran_neg_words_n1[4]
+runA$word[runA$target == "tar1" & runA$condition == "neg" & runA$word == 5] <- ran_neg_words_n1[5]
+runA$word[runA$target == "tar1" & runA$condition == "neg" & runA$word == 6] <- ran_neg_words_n1[6]
+
+#target 2's positve and negative words
+runA$word[runA$target == "tar2" & runA$condition == "pos" & runA$word == 1] <- ran_pos_words_n2[1]
+runA$word[runA$target == "tar2" & runA$condition == "pos" & runA$word == 2] <- ran_pos_words_n2[2]
+runA$word[runA$target == "tar2" & runA$condition == "pos" & runA$word == 3] <- ran_pos_words_n2[3]
+runA$word[runA$target == "tar2" & runA$condition == "pos" & runA$word == 4] <- ran_pos_words_n2[4]
+runA$word[runA$target == "tar2" & runA$condition == "pos" & runA$word == 5] <- ran_pos_words_n2[5]
+runA$word[runA$target == "tar2" & runA$condition == "pos" & runA$word == 6] <- ran_pos_words_n2[6]
+
+runA$word[runA$target == "tar2" & runA$condition == "neg" & runA$word == 1] <- ran_neg_words_n2[1]
+runA$word[runA$target == "tar2" & runA$condition == "neg" & runA$word == 2] <- ran_neg_words_n2[2]
+runA$word[runA$target == "tar2" & runA$condition == "neg" & runA$word == 3] <- ran_neg_words_n2[3]
+runA$word[runA$target == "tar2" & runA$condition == "neg" & runA$word == 4] <- ran_neg_words_n2[4]
+runA$word[runA$target == "tar2" & runA$condition == "neg" & runA$word == 5] <- ran_neg_words_n2[5]
+runA$word[runA$target == "tar2" & runA$condition == "neg" & runA$word == 6] <- ran_neg_words_n2[6]
+
+#target 3's positve and negative words
+runA$word[runA$target == "tar3" & runA$condition == "pos" & runA$word == 1] <- ran_pos_words_n3[1]
+runA$word[runA$target == "tar3" & runA$condition == "pos" & runA$word == 2] <- ran_pos_words_n3[2]
+runA$word[runA$target == "tar3" & runA$condition == "pos" & runA$word == 3] <- ran_pos_words_n3[3]
+runA$word[runA$target == "tar3" & runA$condition == "pos" & runA$word == 4] <- ran_pos_words_n3[4]
+runA$word[runA$target == "tar3" & runA$condition == "pos" & runA$word == 5] <- ran_pos_words_n3[5]
+runA$word[runA$target == "tar3" & runA$condition == "pos" & runA$word == 6] <- ran_pos_words_n3[6]
+
+runA$word[runA$target == "tar3" & runA$condition == "neg" & runA$word == 1] <- ran_neg_words_n3[1]
+runA$word[runA$target == "tar3" & runA$condition == "neg" & runA$word == 2] <- ran_neg_words_n3[2]
+runA$word[runA$target == "tar3" & runA$condition == "neg" & runA$word == 3] <- ran_neg_words_n3[3]
+runA$word[runA$target == "tar3" & runA$condition == "neg" & runA$word == 4] <- ran_neg_words_n3[4]
+runA$word[runA$target == "tar3" & runA$condition == "neg" & runA$word == 5] <- ran_neg_words_n3[5]
+runA$word[runA$target == "tar3" & runA$condition == "neg" & runA$word == 6] <- ran_neg_words_n3[6]
+
+#target 4's positve and negative words
+runA$word[runA$target == "tar4" & runA$condition == "pos" & runA$word == 1] <- ran_pos_words_n4[1]
+runA$word[runA$target == "tar4" & runA$condition == "pos" & runA$word == 2] <- ran_pos_words_n4[2]
+runA$word[runA$target == "tar4" & runA$condition == "pos" & runA$word == 3] <- ran_pos_words_n4[3]
+runA$word[runA$target == "tar4" & runA$condition == "pos" & runA$word == 4] <- ran_pos_words_n4[4]
+runA$word[runA$target == "tar4" & runA$condition == "pos" & runA$word == 5] <- ran_pos_words_n4[5]
+runA$word[runA$target == "tar4" & runA$condition == "pos" & runA$word == 6] <- ran_pos_words_n4[6]
+
+runA$word[runA$target == "tar4" & runA$condition == "neg" & runA$word == 1] <- ran_neg_words_n4[1]
+runA$word[runA$target == "tar4" & runA$condition == "neg" & runA$word == 2] <- ran_neg_words_n4[2]
+runA$word[runA$target == "tar4" & runA$condition == "neg" & runA$word == 3] <- ran_neg_words_n4[3]
+runA$word[runA$target == "tar4" & runA$condition == "neg" & runA$word == 4] <- ran_neg_words_n4[4]
+runA$word[runA$target == "tar4" & runA$condition == "neg" & runA$word == 5] <- ran_neg_words_n4[5]
+runA$word[runA$target == "tar4" & runA$condition == "neg" & runA$word == 6] <- ran_neg_words_n4[6]
+
+#target 5's positve and negative words
+runA$word[runA$target == "tar5" & runA$condition == "pos" & runA$word == 1] <- ran_pos_words_n5[1]
+runA$word[runA$target == "tar5" & runA$condition == "pos" & runA$word == 2] <- ran_pos_words_n5[2]
+runA$word[runA$target == "tar5" & runA$condition == "pos" & runA$word == 3] <- ran_pos_words_n5[3]
+runA$word[runA$target == "tar5" & runA$condition == "pos" & runA$word == 4] <- ran_pos_words_n5[4]
+runA$word[runA$target == "tar5" & runA$condition == "pos" & runA$word == 5] <- ran_pos_words_n5[5]
+runA$word[runA$target == "tar5" & runA$condition == "pos" & runA$word == 6] <- ran_pos_words_n5[6]
+
+runA$word[runA$target == "tar5" & runA$condition == "neg" & runA$word == 1] <- ran_neg_words_n5[1]
+runA$word[runA$target == "tar5" & runA$condition == "neg" & runA$word == 2] <- ran_neg_words_n5[2]
+runA$word[runA$target == "tar5" & runA$condition == "neg" & runA$word == 3] <- ran_neg_words_n5[3]
+runA$word[runA$target == "tar5" & runA$condition == "neg" & runA$word == 4] <- ran_neg_words_n5[4]
+runA$word[runA$target == "tar5" & runA$condition == "neg" & runA$word == 5] <- ran_neg_words_n5[5]
+runA$word[runA$target == "tar5" & runA$condition == "neg" & runA$word == 6] <- ran_neg_words_n5[6]
+
+#target 6's positve and negative words
+runA$word[runA$target == "tar6" & runA$condition == "pos" & runA$word == 1] <- ran_pos_words_n6[1]
+runA$word[runA$target == "tar6" & runA$condition == "pos" & runA$word == 2] <- ran_pos_words_n6[2]
+runA$word[runA$target == "tar6" & runA$condition == "pos" & runA$word == 3] <- ran_pos_words_n6[3]
+runA$word[runA$target == "tar6" & runA$condition == "pos" & runA$word == 4] <- ran_pos_words_n6[4]
+runA$word[runA$target == "tar6" & runA$condition == "pos" & runA$word == 5] <- ran_pos_words_n6[5]
+runA$word[runA$target == "tar6" & runA$condition == "pos" & runA$word == 6] <- ran_pos_words_n6[6]
+
+runA$word[runA$target == "tar6" & runA$condition == "neg" & runA$word == 1] <- ran_neg_words_n6[1]
+runA$word[runA$target == "tar6" & runA$condition == "neg" & runA$word == 2] <- ran_neg_words_n6[2]
+runA$word[runA$target == "tar6" & runA$condition == "neg" & runA$word == 3] <- ran_neg_words_n6[3]
+runA$word[runA$target == "tar6" & runA$condition == "neg" & runA$word == 4] <- ran_neg_words_n6[4]
+runA$word[runA$target == "tar6" & runA$condition == "neg" & runA$word == 5] <- ran_neg_words_n6[5]
+runA$word[runA$target == "tar6" & runA$condition == "neg" & runA$word == 6] <- ran_neg_words_n6[6]
+```
+
+
+
+```{r, names_runA}
+#Randomize the order of the names and assign each name to a target number
+random_names <- sample(names)
+
+target1 <- random_names[1]
+target2 <- random_names[2]
+target3 <- random_names[3]
+target4 <- random_names[4]
+target5 <- random_names[5]
+target6 <- random_names[6]
+
+#Export a text file that tracks the target order for each run
+export(as.data.frame(random_names), "target_order_runA.txt")
+
+#logical indexing to replace target positions in optseq output to names of participants
+runA$target[runA$target == "tar1"] <- target1
+runA$target[runA$target == "tar2"] <- target2
+runA$target[runA$target == "tar3"] <- target3
+runA$target[runA$target == "tar4"] <- target4
+runA$target[runA$target == "tar5"] <- target5
+runA$target[runA$target == "tar6"] <- target6
+```
+
+
+```{r, blank_cells_runA}
+#Fill in all blank cells with spaces so that psychopy will work correctly 
+runA$target[runA$target == ""] <- " "
+runA$word[is.na(runA$word)] <- " "
+```
+
+
+```{r, export_runA}
+export(runA, "../runA/runA.xlsx")
+```
+
+
+
+
+```{r, words_runB}
+#randomize the order of the 6 positive and 6 negative words for each of the 6 participants 
+#Using the first 6 positive and first 6 negative words for run B
+runB_pos_words <- pos_words$word[7:12]
+
+ran_pos_words_n1 <- sample(runB_pos_words)
+ran_pos_words_n2 <- sample(runB_pos_words)
+ran_pos_words_n3 <- sample(runB_pos_words)
+ran_pos_words_n4 <- sample(runB_pos_words)
+ran_pos_words_n5 <- sample(runB_pos_words)
+ran_pos_words_n6 <- sample(runB_pos_words)
+
+runB_neg_words <- neg_words$word[7:12]
+
+ran_neg_words_n1 <- sample(runB_neg_words)
+ran_neg_words_n2 <- sample(runB_neg_words)
+ran_neg_words_n3 <- sample(runB_neg_words)
+ran_neg_words_n4 <- sample(runB_neg_words)
+ran_neg_words_n5 <- sample(runB_neg_words)
+ran_neg_words_n6 <- sample(runB_neg_words)
+
+#target 1's positive and negative words logical index to replace what is in the valence column
+#Had to modify the optseq output to have pos1, pos3 .. etc for each target to make indexing possible 
+#You should only have to do this once at the initial set up of the experiment
+
+#target 1's positve and negative words
+runB$word[runB$target == "tar1" & runB$condition == "pos" & runB$word == 1] <- ran_pos_words_n1[1]
+runB$word[runB$target == "tar1" & runB$condition == "pos" & runB$word == 2] <- ran_pos_words_n1[2]
+runB$word[runB$target == "tar1" & runB$condition == "pos" & runB$word == 3] <- ran_pos_words_n1[3]
+runB$word[runB$target == "tar1" & runB$condition == "pos" & runB$word == 4] <- ran_pos_words_n1[4]
+runB$word[runB$target == "tar1" & runB$condition == "pos" & runB$word == 5] <- ran_pos_words_n1[5]
+runB$word[runB$target == "tar1" & runB$condition == "pos" & runB$word == 6] <- ran_pos_words_n1[6]
+
+runB$word[runB$target == "tar1" & runB$condition == "neg" & runB$word == 1] <- ran_neg_words_n1[1]
+runB$word[runB$target == "tar1" & runB$condition == "neg" & runB$word == 2] <- ran_neg_words_n1[2]
+runB$word[runB$target == "tar1" & runB$condition == "neg" & runB$word == 3] <- ran_neg_words_n1[3]
+runB$word[runB$target == "tar1" & runB$condition == "neg" & runB$word == 4] <- ran_neg_words_n1[4]
+runB$word[runB$target == "tar1" & runB$condition == "neg" & runB$word == 5] <- ran_neg_words_n1[5]
+runB$word[runB$target == "tar1" & runB$condition == "neg" & runB$word == 6] <- ran_neg_words_n1[6]
+
+#target 2's positve and negative words
+runB$word[runB$target == "tar2" & runB$condition == "pos" & runB$word == 1] <- ran_pos_words_n2[1]
+runB$word[runB$target == "tar2" & runB$condition == "pos" & runB$word == 2] <- ran_pos_words_n2[2]
+runB$word[runB$target == "tar2" & runB$condition == "pos" & runB$word == 3] <- ran_pos_words_n2[3]
+runB$word[runB$target == "tar2" & runB$condition == "pos" & runB$word == 4] <- ran_pos_words_n2[4]
+runB$word[runB$target == "tar2" & runB$condition == "pos" & runB$word == 5] <- ran_pos_words_n2[5]
+runB$word[runB$target == "tar2" & runB$condition == "pos" & runB$word == 6] <- ran_pos_words_n2[6]
+
+runB$word[runB$target == "tar2" & runB$condition == "neg" & runB$word == 1] <- ran_neg_words_n2[1]
+runB$word[runB$target == "tar2" & runB$condition == "neg" & runB$word == 2] <- ran_neg_words_n2[2]
+runB$word[runB$target == "tar2" & runB$condition == "neg" & runB$word == 3] <- ran_neg_words_n2[3]
+runB$word[runB$target == "tar2" & runB$condition == "neg" & runB$word == 4] <- ran_neg_words_n2[4]
+runB$word[runB$target == "tar2" & runB$condition == "neg" & runB$word == 5] <- ran_neg_words_n2[5]
+runB$word[runB$target == "tar2" & runB$condition == "neg" & runB$word == 6] <- ran_neg_words_n2[6]
+
+#target 3's positve and negative words
+runB$word[runB$target == "tar3" & runB$condition == "pos" & runB$word == 1] <- ran_pos_words_n3[1]
+runB$word[runB$target == "tar3" & runB$condition == "pos" & runB$word == 2] <- ran_pos_words_n3[2]
+runB$word[runB$target == "tar3" & runB$condition == "pos" & runB$word == 3] <- ran_pos_words_n3[3]
+runB$word[runB$target == "tar3" & runB$condition == "pos" & runB$word == 4] <- ran_pos_words_n3[4]
+runB$word[runB$target == "tar3" & runB$condition == "pos" & runB$word == 5] <- ran_pos_words_n3[5]
+runB$word[runB$target == "tar3" & runB$condition == "pos" & runB$word == 6] <- ran_pos_words_n3[6]
+
+runB$word[runB$target == "tar3" & runB$condition == "neg" & runB$word == 1] <- ran_neg_words_n3[1]
+runB$word[runB$target == "tar3" & runB$condition == "neg" & runB$word == 2] <- ran_neg_words_n3[2]
+runB$word[runB$target == "tar3" & runB$condition == "neg" & runB$word == 3] <- ran_neg_words_n3[3]
+runB$word[runB$target == "tar3" & runB$condition == "neg" & runB$word == 4] <- ran_neg_words_n3[4]
+runB$word[runB$target == "tar3" & runB$condition == "neg" & runB$word == 5] <- ran_neg_words_n3[5]
+runB$word[runB$target == "tar3" & runB$condition == "neg" & runB$word == 6] <- ran_neg_words_n3[6]
+
+#target 4's positve and negative words
+runB$word[runB$target == "tar4" & runB$condition == "pos" & runB$word == 1] <- ran_pos_words_n4[1]
+runB$word[runB$target == "tar4" & runB$condition == "pos" & runB$word == 2] <- ran_pos_words_n4[2]
+runB$word[runB$target == "tar4" & runB$condition == "pos" & runB$word == 3] <- ran_pos_words_n4[3]
+runB$word[runB$target == "tar4" & runB$condition == "pos" & runB$word == 4] <- ran_pos_words_n4[4]
+runB$word[runB$target == "tar4" & runB$condition == "pos" & runB$word == 5] <- ran_pos_words_n4[5]
+runB$word[runB$target == "tar4" & runB$condition == "pos" & runB$word == 6] <- ran_pos_words_n4[6]
+
+runB$word[runB$target == "tar4" & runB$condition == "neg" & runB$word == 1] <- ran_neg_words_n4[1]
+runB$word[runB$target == "tar4" & runB$condition == "neg" & runB$word == 2] <- ran_neg_words_n4[2]
+runB$word[runB$target == "tar4" & runB$condition == "neg" & runB$word == 3] <- ran_neg_words_n4[3]
+runB$word[runB$target == "tar4" & runB$condition == "neg" & runB$word == 4] <- ran_neg_words_n4[4]
+runB$word[runB$target == "tar4" & runB$condition == "neg" & runB$word == 5] <- ran_neg_words_n4[5]
+runB$word[runB$target == "tar4" & runB$condition == "neg" & runB$word == 6] <- ran_neg_words_n4[6]
+
+#target 5's positve and negative words
+runB$word[runB$target == "tar5" & runB$condition == "pos" & runB$word == 1] <- ran_pos_words_n5[1]
+runB$word[runB$target == "tar5" & runB$condition == "pos" & runB$word == 2] <- ran_pos_words_n5[2]
+runB$word[runB$target == "tar5" & runB$condition == "pos" & runB$word == 3] <- ran_pos_words_n5[3]
+runB$word[runB$target == "tar5" & runB$condition == "pos" & runB$word == 4] <- ran_pos_words_n5[4]
+runB$word[runB$target == "tar5" & runB$condition == "pos" & runB$word == 5] <- ran_pos_words_n5[5]
+runB$word[runB$target == "tar5" & runB$condition == "pos" & runB$word == 6] <- ran_pos_words_n5[6]
+
+runB$word[runB$target == "tar5" & runB$condition == "neg" & runB$word == 1] <- ran_neg_words_n5[1]
+runB$word[runB$target == "tar5" & runB$condition == "neg" & runB$word == 2] <- ran_neg_words_n5[2]
+runB$word[runB$target == "tar5" & runB$condition == "neg" & runB$word == 3] <- ran_neg_words_n5[3]
+runB$word[runB$target == "tar5" & runB$condition == "neg" & runB$word == 4] <- ran_neg_words_n5[4]
+runB$word[runB$target == "tar5" & runB$condition == "neg" & runB$word == 5] <- ran_neg_words_n5[5]
+runB$word[runB$target == "tar5" & runB$condition == "neg" & runB$word == 6] <- ran_neg_words_n5[6]
+
+#target 6's positve and negative words
+runB$word[runB$target == "tar6" & runB$condition == "pos" & runB$word == 1] <- ran_pos_words_n6[1]
+runB$word[runB$target == "tar6" & runB$condition == "pos" & runB$word == 2] <- ran_pos_words_n6[2]
+runB$word[runB$target == "tar6" & runB$condition == "pos" & runB$word == 3] <- ran_pos_words_n6[3]
+runB$word[runB$target == "tar6" & runB$condition == "pos" & runB$word == 4] <- ran_pos_words_n6[4]
+runB$word[runB$target == "tar6" & runB$condition == "pos" & runB$word == 5] <- ran_pos_words_n6[5]
+runB$word[runB$target == "tar6" & runB$condition == "pos" & runB$word == 6] <- ran_pos_words_n6[6]
+
+runB$word[runB$target == "tar6" & runB$condition == "neg" & runB$word == 1] <- ran_neg_words_n6[1]
+runB$word[runB$target == "tar6" & runB$condition == "neg" & runB$word == 2] <- ran_neg_words_n6[2]
+runB$word[runB$target == "tar6" & runB$condition == "neg" & runB$word == 3] <- ran_neg_words_n6[3]
+runB$word[runB$target == "tar6" & runB$condition == "neg" & runB$word == 4] <- ran_neg_words_n6[4]
+runB$word[runB$target == "tar6" & runB$condition == "neg" & runB$word == 5] <- ran_neg_words_n6[5]
+runB$word[runB$target == "tar6" & runB$condition == "neg" & runB$word == 6] <- ran_neg_words_n6[6]
+```
+
+
+
+```{r, names_runB}
+#Randomize the order of the names and assign each name to a target number
+random_names <- sample(names)
+
+target1 <- random_names[1]
+target2 <- random_names[2]
+target3 <- random_names[3]
+target4 <- random_names[4]
+target5 <- random_names[5]
+target6 <- random_names[6]
+
+#Export a text file that tracks the target order for each run
+export(as.data.frame(random_names), "target_order_runB.txt")
+
+#logical indexing to replace target positions in optseq output to names of participants
+runB$target[runB$target == "tar1"] <- target1
+runB$target[runB$target == "tar2"] <- target2
+runB$target[runB$target == "tar3"] <- target3
+runB$target[runB$target == "tar4"] <- target4
+runB$target[runB$target == "tar5"] <- target5
+runB$target[runB$target == "tar6"] <- target6
+
+```
+
+
+
+```{r, blank_cells_runB}
+#Fill in all blank cells with spaces so that psychopy will work correctly 
+runB$target[runB$target == ""] <- " "
+runB$word[is.na(runB$word)] <- " "
+```
+
+
+
+```{r, export_runB}
+export(runB, "../runB/runB.xlsx")
+```
+
+
+
+
+```{r, words_runC}
+#randomize the order of the 6 positive and 6 negative words for each of the 6 participants 
+#Using the first 6 positive and first 6 negative words for run C
+runC_pos_words <- pos_words$word[13:18]
+
+ran_pos_words_n1 <- sample(runC_pos_words)
+ran_pos_words_n2 <- sample(runC_pos_words)
+ran_pos_words_n3 <- sample(runC_pos_words)
+ran_pos_words_n4 <- sample(runC_pos_words)
+ran_pos_words_n5 <- sample(runC_pos_words)
+ran_pos_words_n6 <- sample(runC_pos_words)
+
+runC_neg_words <- neg_words$word[13:18]
+
+ran_neg_words_n1 <- sample(runC_neg_words)
+ran_neg_words_n2 <- sample(runC_neg_words)
+ran_neg_words_n3 <- sample(runC_neg_words)
+ran_neg_words_n4 <- sample(runC_neg_words)
+ran_neg_words_n5 <- sample(runC_neg_words)
+ran_neg_words_n6 <- sample(runC_neg_words)
+
+#target 1's positive and negative words logical index to replace what is in the valence column
+#Had to modify the optseq output to have pos1, pos3 .. etc for each target to make indexing possible 
+#You should only have to do this once at the initial set up of the experiment
+
+#target 1's positve and negative words
+runC$word[runC$target == "tar1" & runC$condition == "pos" & runC$word == 1] <- ran_pos_words_n1[1]
+runC$word[runC$target == "tar1" & runC$condition == "pos" & runC$word == 2] <- ran_pos_words_n1[2]
+runC$word[runC$target == "tar1" & runC$condition == "pos" & runC$word == 3] <- ran_pos_words_n1[3]
+runC$word[runC$target == "tar1" & runC$condition == "pos" & runC$word == 4] <- ran_pos_words_n1[4]
+runC$word[runC$target == "tar1" & runC$condition == "pos" & runC$word == 5] <- ran_pos_words_n1[5]
+runC$word[runC$target == "tar1" & runC$condition == "pos" & runC$word == 6] <- ran_pos_words_n1[6]
+
+runC$word[runC$target == "tar1" & runC$condition == "neg" & runC$word == 1] <- ran_neg_words_n1[1]
+runC$word[runC$target == "tar1" & runC$condition == "neg" & runC$word == 2] <- ran_neg_words_n1[2]
+runC$word[runC$target == "tar1" & runC$condition == "neg" & runC$word == 3] <- ran_neg_words_n1[3]
+runC$word[runC$target == "tar1" & runC$condition == "neg" & runC$word == 4] <- ran_neg_words_n1[4]
+runC$word[runC$target == "tar1" & runC$condition == "neg" & runC$word == 5] <- ran_neg_words_n1[5]
+runC$word[runC$target == "tar1" & runC$condition == "neg" & runC$word == 6] <- ran_neg_words_n1[6]
+
+#target 2's positve and negative words
+runC$word[runC$target == "tar2" & runC$condition == "pos" & runC$word == 1] <- ran_pos_words_n2[1]
+runC$word[runC$target == "tar2" & runC$condition == "pos" & runC$word == 2] <- ran_pos_words_n2[2]
+runC$word[runC$target == "tar2" & runC$condition == "pos" & runC$word == 3] <- ran_pos_words_n2[3]
+runC$word[runC$target == "tar2" & runC$condition == "pos" & runC$word == 4] <- ran_pos_words_n2[4]
+runC$word[runC$target == "tar2" & runC$condition == "pos" & runC$word == 5] <- ran_pos_words_n2[5]
+runC$word[runC$target == "tar2" & runC$condition == "pos" & runC$word == 6] <- ran_pos_words_n2[6]
+
+runC$word[runC$target == "tar2" & runC$condition == "neg" & runC$word == 1] <- ran_neg_words_n2[1]
+runC$word[runC$target == "tar2" & runC$condition == "neg" & runC$word == 2] <- ran_neg_words_n2[2]
+runC$word[runC$target == "tar2" & runC$condition == "neg" & runC$word == 3] <- ran_neg_words_n2[3]
+runC$word[runC$target == "tar2" & runC$condition == "neg" & runC$word == 4] <- ran_neg_words_n2[4]
+runC$word[runC$target == "tar2" & runC$condition == "neg" & runC$word == 5] <- ran_neg_words_n2[5]
+runC$word[runC$target == "tar2" & runC$condition == "neg" & runC$word == 6] <- ran_neg_words_n2[6]
+
+#target 3's positve and negative words
+runC$word[runC$target == "tar3" & runC$condition == "pos" & runC$word == 1] <- ran_pos_words_n3[1]
+runC$word[runC$target == "tar3" & runC$condition == "pos" & runC$word == 2] <- ran_pos_words_n3[2]
+runC$word[runC$target == "tar3" & runC$condition == "pos" & runC$word == 3] <- ran_pos_words_n3[3]
+runC$word[runC$target == "tar3" & runC$condition == "pos" & runC$word == 4] <- ran_pos_words_n3[4]
+runC$word[runC$target == "tar3" & runC$condition == "pos" & runC$word == 5] <- ran_pos_words_n3[5]
+runC$word[runC$target == "tar3" & runC$condition == "pos" & runC$word == 6] <- ran_pos_words_n3[6]
+
+runC$word[runC$target == "tar3" & runC$condition == "neg" & runC$word == 1] <- ran_neg_words_n3[1]
+runC$word[runC$target == "tar3" & runC$condition == "neg" & runC$word == 2] <- ran_neg_words_n3[2]
+runC$word[runC$target == "tar3" & runC$condition == "neg" & runC$word == 3] <- ran_neg_words_n3[3]
+runC$word[runC$target == "tar3" & runC$condition == "neg" & runC$word == 4] <- ran_neg_words_n3[4]
+runC$word[runC$target == "tar3" & runC$condition == "neg" & runC$word == 5] <- ran_neg_words_n3[5]
+runC$word[runC$target == "tar3" & runC$condition == "neg" & runC$word == 6] <- ran_neg_words_n3[6]
+
+#target 4's positve and negative words
+runC$word[runC$target == "tar4" & runC$condition == "pos" & runC$word == 1] <- ran_pos_words_n4[1]
+runC$word[runC$target == "tar4" & runC$condition == "pos" & runC$word == 2] <- ran_pos_words_n4[2]
+runC$word[runC$target == "tar4" & runC$condition == "pos" & runC$word == 3] <- ran_pos_words_n4[3]
+runC$word[runC$target == "tar4" & runC$condition == "pos" & runC$word == 4] <- ran_pos_words_n4[4]
+runC$word[runC$target == "tar4" & runC$condition == "pos" & runC$word == 5] <- ran_pos_words_n4[5]
+runC$word[runC$target == "tar4" & runC$condition == "pos" & runC$word == 6] <- ran_pos_words_n4[6]
+
+runC$word[runC$target == "tar4" & runC$condition == "neg" & runC$word == 1] <- ran_neg_words_n4[1]
+runC$word[runC$target == "tar4" & runC$condition == "neg" & runC$word == 2] <- ran_neg_words_n4[2]
+runC$word[runC$target == "tar4" & runC$condition == "neg" & runC$word == 3] <- ran_neg_words_n4[3]
+runC$word[runC$target == "tar4" & runC$condition == "neg" & runC$word == 4] <- ran_neg_words_n4[4]
+runC$word[runC$target == "tar4" & runC$condition == "neg" & runC$word == 5] <- ran_neg_words_n4[5]
+runC$word[runC$target == "tar4" & runC$condition == "neg" & runC$word == 6] <- ran_neg_words_n4[6]
+
+#target 5's positve and negative words
+runC$word[runC$target == "tar5" & runC$condition == "pos" & runC$word == 1] <- ran_pos_words_n5[1]
+runC$word[runC$target == "tar5" & runC$condition == "pos" & runC$word == 2] <- ran_pos_words_n5[2]
+runC$word[runC$target == "tar5" & runC$condition == "pos" & runC$word == 3] <- ran_pos_words_n5[3]
+runC$word[runC$target == "tar5" & runC$condition == "pos" & runC$word == 4] <- ran_pos_words_n5[4]
+runC$word[runC$target == "tar5" & runC$condition == "pos" & runC$word == 5] <- ran_pos_words_n5[5]
+runC$word[runC$target == "tar5" & runC$condition == "pos" & runC$word == 6] <- ran_pos_words_n5[6]
+
+runC$word[runC$target == "tar5" & runC$condition == "neg" & runC$word == 1] <- ran_neg_words_n5[1]
+runC$word[runC$target == "tar5" & runC$condition == "neg" & runC$word == 2] <- ran_neg_words_n5[2]
+runC$word[runC$target == "tar5" & runC$condition == "neg" & runC$word == 3] <- ran_neg_words_n5[3]
+runC$word[runC$target == "tar5" & runC$condition == "neg" & runC$word == 4] <- ran_neg_words_n5[4]
+runC$word[runC$target == "tar5" & runC$condition == "neg" & runC$word == 5] <- ran_neg_words_n5[5]
+runC$word[runC$target == "tar5" & runC$condition == "neg" & runC$word == 6] <- ran_neg_words_n5[6]
+
+#target 6's positve and negative words
+runC$word[runC$target == "tar6" & runC$condition == "pos" & runC$word == 1] <- ran_pos_words_n6[1]
+runC$word[runC$target == "tar6" & runC$condition == "pos" & runC$word == 2] <- ran_pos_words_n6[2]
+runC$word[runC$target == "tar6" & runC$condition == "pos" & runC$word == 3] <- ran_pos_words_n6[3]
+runC$word[runC$target == "tar6" & runC$condition == "pos" & runC$word == 4] <- ran_pos_words_n6[4]
+runC$word[runC$target == "tar6" & runC$condition == "pos" & runC$word == 5] <- ran_pos_words_n6[5]
+runC$word[runC$target == "tar6" & runC$condition == "pos" & runC$word == 6] <- ran_pos_words_n6[6]
+
+runC$word[runC$target == "tar6" & runC$condition == "neg" & runC$word == 1] <- ran_neg_words_n6[1]
+runC$word[runC$target == "tar6" & runC$condition == "neg" & runC$word == 2] <- ran_neg_words_n6[2]
+runC$word[runC$target == "tar6" & runC$condition == "neg" & runC$word == 3] <- ran_neg_words_n6[3]
+runC$word[runC$target == "tar6" & runC$condition == "neg" & runC$word == 4] <- ran_neg_words_n6[4]
+runC$word[runC$target == "tar6" & runC$condition == "neg" & runC$word == 5] <- ran_neg_words_n6[5]
+runC$word[runC$target == "tar6" & runC$condition == "neg" & runC$word == 6] <- ran_neg_words_n6[6]
+```
+
+
+
+```{r, names_runC}
+#Randomize the order of the names and assign each name to a target number
+random_names <- sample(names)
+
+target1 <- random_names[1]
+target2 <- random_names[2]
+target3 <- random_names[3]
+target4 <- random_names[4]
+target5 <- random_names[5]
+target6 <- random_names[6]
+
+#Export a text file that tracks the target order for each run
+export(as.data.frame(random_names), "target_order_runC.txt")
+
+#logical indexing to replace target positions in optseq output to names of participants
+runC$target[runC$target == "tar1"] <- target1
+runC$target[runC$target == "tar2"] <- target2
+runC$target[runC$target == "tar3"] <- target3
+runC$target[runC$target == "tar4"] <- target4
+runC$target[runC$target == "tar5"] <- target5
+runC$target[runC$target == "tar6"] <- target6
+
+```
+
+
+
+```{r, blank_cells_runC}
+#Fill in all blank cells with spaces so that psychopy will work correctly 
+runC$target[runC$target == ""] <- " "
+runC$word[is.na(runC$word)] <- " "
+```
+
+
+
+```{r, export_runC}
+export(runC, "../runC/runC.xlsx")
+```
+
+
+
+
+
+
+
+```{r, words_runD}
+#randomize the order of the 6 positive and 6 negative words for each of the 6 participants 
+#Using the first 6 positive and first 6 negative words for run D
+runD_pos_words <- pos_words$word[19:24]
+
+ran_pos_words_n1 <- sample(runD_pos_words)
+ran_pos_words_n2 <- sample(runD_pos_words)
+ran_pos_words_n3 <- sample(runD_pos_words)
+ran_pos_words_n4 <- sample(runD_pos_words)
+ran_pos_words_n5 <- sample(runD_pos_words)
+ran_pos_words_n6 <- sample(runD_pos_words)
+
+runD_neg_words <- neg_words$word[19:24]
+
+ran_neg_words_n1 <- sample(runD_neg_words)
+ran_neg_words_n2 <- sample(runD_neg_words)
+ran_neg_words_n3 <- sample(runD_neg_words)
+ran_neg_words_n4 <- sample(runD_neg_words)
+ran_neg_words_n5 <- sample(runD_neg_words)
+ran_neg_words_n6 <- sample(runD_neg_words)
+
+#target 1's positive and negative words logical index to replace what is in the valence column
+#Had to modify the optseq output to have pos1, pos3 .. etc for each target to make indexing possible 
+#You should only have to do this once at the initial set up of the experiment
+
+#target 1's positve and negative words
+runD$word[runD$target == "tar1" & runD$condition == "pos" & runD$word == 1] <- ran_pos_words_n1[1]
+runD$word[runD$target == "tar1" & runD$condition == "pos" & runD$word == 2] <- ran_pos_words_n1[2]
+runD$word[runD$target == "tar1" & runD$condition == "pos" & runD$word == 3] <- ran_pos_words_n1[3]
+runD$word[runD$target == "tar1" & runD$condition == "pos" & runD$word == 4] <- ran_pos_words_n1[4]
+runD$word[runD$target == "tar1" & runD$condition == "pos" & runD$word == 5] <- ran_pos_words_n1[5]
+runD$word[runD$target == "tar1" & runD$condition == "pos" & runD$word == 6] <- ran_pos_words_n1[6]
+
+runD$word[runD$target == "tar1" & runD$condition == "neg" & runD$word == 1] <- ran_neg_words_n1[1]
+runD$word[runD$target == "tar1" & runD$condition == "neg" & runD$word == 2] <- ran_neg_words_n1[2]
+runD$word[runD$target == "tar1" & runD$condition == "neg" & runD$word == 3] <- ran_neg_words_n1[3]
+runD$word[runD$target == "tar1" & runD$condition == "neg" & runD$word == 4] <- ran_neg_words_n1[4]
+runD$word[runD$target == "tar1" & runD$condition == "neg" & runD$word == 5] <- ran_neg_words_n1[5]
+runD$word[runD$target == "tar1" & runD$condition == "neg" & runD$word == 6] <- ran_neg_words_n1[6]
+
+#target 2's positve and negative words
+runD$word[runD$target == "tar2" & runD$condition == "pos" & runD$word == 1] <- ran_pos_words_n2[1]
+runD$word[runD$target == "tar2" & runD$condition == "pos" & runD$word == 2] <- ran_pos_words_n2[2]
+runD$word[runD$target == "tar2" & runD$condition == "pos" & runD$word == 3] <- ran_pos_words_n2[3]
+runD$word[runD$target == "tar2" & runD$condition == "pos" & runD$word == 4] <- ran_pos_words_n2[4]
+runD$word[runD$target == "tar2" & runD$condition == "pos" & runD$word == 5] <- ran_pos_words_n2[5]
+runD$word[runD$target == "tar2" & runD$condition == "pos" & runD$word == 6] <- ran_pos_words_n2[6]
+
+runD$word[runD$target == "tar2" & runD$condition == "neg" & runD$word == 1] <- ran_neg_words_n2[1]
+runD$word[runD$target == "tar2" & runD$condition == "neg" & runD$word == 2] <- ran_neg_words_n2[2]
+runD$word[runD$target == "tar2" & runD$condition == "neg" & runD$word == 3] <- ran_neg_words_n2[3]
+runD$word[runD$target == "tar2" & runD$condition == "neg" & runD$word == 4] <- ran_neg_words_n2[4]
+runD$word[runD$target == "tar2" & runD$condition == "neg" & runD$word == 5] <- ran_neg_words_n2[5]
+runD$word[runD$target == "tar2" & runD$condition == "neg" & runD$word == 6] <- ran_neg_words_n2[6]
+
+#target 3's positve and negative words
+runD$word[runD$target == "tar3" & runD$condition == "pos" & runD$word == 1] <- ran_pos_words_n3[1]
+runD$word[runD$target == "tar3" & runD$condition == "pos" & runD$word == 2] <- ran_pos_words_n3[2]
+runD$word[runD$target == "tar3" & runD$condition == "pos" & runD$word == 3] <- ran_pos_words_n3[3]
+runD$word[runD$target == "tar3" & runD$condition == "pos" & runD$word == 4] <- ran_pos_words_n3[4]
+runD$word[runD$target == "tar3" & runD$condition == "pos" & runD$word == 5] <- ran_pos_words_n3[5]
+runD$word[runD$target == "tar3" & runD$condition == "pos" & runD$word == 6] <- ran_pos_words_n3[6]
+
+runD$word[runD$target == "tar3" & runD$condition == "neg" & runD$word == 1] <- ran_neg_words_n3[1]
+runD$word[runD$target == "tar3" & runD$condition == "neg" & runD$word == 2] <- ran_neg_words_n3[2]
+runD$word[runD$target == "tar3" & runD$condition == "neg" & runD$word == 3] <- ran_neg_words_n3[3]
+runD$word[runD$target == "tar3" & runD$condition == "neg" & runD$word == 4] <- ran_neg_words_n3[4]
+runD$word[runD$target == "tar3" & runD$condition == "neg" & runD$word == 5] <- ran_neg_words_n3[5]
+runD$word[runD$target == "tar3" & runD$condition == "neg" & runD$word == 6] <- ran_neg_words_n3[6]
+
+#target 4's positve and negative words
+runD$word[runD$target == "tar4" & runD$condition == "pos" & runD$word == 1] <- ran_pos_words_n4[1]
+runD$word[runD$target == "tar4" & runD$condition == "pos" & runD$word == 2] <- ran_pos_words_n4[2]
+runD$word[runD$target == "tar4" & runD$condition == "pos" & runD$word == 3] <- ran_pos_words_n4[3]
+runD$word[runD$target == "tar4" & runD$condition == "pos" & runD$word == 4] <- ran_pos_words_n4[4]
+runD$word[runD$target == "tar4" & runD$condition == "pos" & runD$word == 5] <- ran_pos_words_n4[5]
+runD$word[runD$target == "tar4" & runD$condition == "pos" & runD$word == 6] <- ran_pos_words_n4[6]
+
+runD$word[runD$target == "tar4" & runD$condition == "neg" & runD$word == 1] <- ran_neg_words_n4[1]
+runD$word[runD$target == "tar4" & runD$condition == "neg" & runD$word == 2] <- ran_neg_words_n4[2]
+runD$word[runD$target == "tar4" & runD$condition == "neg" & runD$word == 3] <- ran_neg_words_n4[3]
+runD$word[runD$target == "tar4" & runD$condition == "neg" & runD$word == 4] <- ran_neg_words_n4[4]
+runD$word[runD$target == "tar4" & runD$condition == "neg" & runD$word == 5] <- ran_neg_words_n4[5]
+runD$word[runD$target == "tar4" & runD$condition == "neg" & runD$word == 6] <- ran_neg_words_n4[6]
+
+#target 5's positve and negative words
+runD$word[runD$target == "tar5" & runD$condition == "pos" & runD$word == 1] <- ran_pos_words_n5[1]
+runD$word[runD$target == "tar5" & runD$condition == "pos" & runD$word == 2] <- ran_pos_words_n5[2]
+runD$word[runD$target == "tar5" & runD$condition == "pos" & runD$word == 3] <- ran_pos_words_n5[3]
+runD$word[runD$target == "tar5" & runD$condition == "pos" & runD$word == 4] <- ran_pos_words_n5[4]
+runD$word[runD$target == "tar5" & runD$condition == "pos" & runD$word == 5] <- ran_pos_words_n5[5]
+runD$word[runD$target == "tar5" & runD$condition == "pos" & runD$word == 6] <- ran_pos_words_n5[6]
+
+runD$word[runD$target == "tar5" & runD$condition == "neg" & runD$word == 1] <- ran_neg_words_n5[1]
+runD$word[runD$target == "tar5" & runD$condition == "neg" & runD$word == 2] <- ran_neg_words_n5[2]
+runD$word[runD$target == "tar5" & runD$condition == "neg" & runD$word == 3] <- ran_neg_words_n5[3]
+runD$word[runD$target == "tar5" & runD$condition == "neg" & runD$word == 4] <- ran_neg_words_n5[4]
+runD$word[runD$target == "tar5" & runD$condition == "neg" & runD$word == 5] <- ran_neg_words_n5[5]
+runD$word[runD$target == "tar5" & runD$condition == "neg" & runD$word == 6] <- ran_neg_words_n5[6]
+
+#target 6's positve and negative words
+runD$word[runD$target == "tar6" & runD$condition == "pos" & runD$word == 1] <- ran_pos_words_n6[1]
+runD$word[runD$target == "tar6" & runD$condition == "pos" & runD$word == 2] <- ran_pos_words_n6[2]
+runD$word[runD$target == "tar6" & runD$condition == "pos" & runD$word == 3] <- ran_pos_words_n6[3]
+runD$word[runD$target == "tar6" & runD$condition == "pos" & runD$word == 4] <- ran_pos_words_n6[4]
+runD$word[runD$target == "tar6" & runD$condition == "pos" & runD$word == 5] <- ran_pos_words_n6[5]
+runD$word[runD$target == "tar6" & runD$condition == "pos" & runD$word == 6] <- ran_pos_words_n6[6]
+
+runD$word[runD$target == "tar6" & runD$condition == "neg" & runD$word == 1] <- ran_neg_words_n6[1]
+runD$word[runD$target == "tar6" & runD$condition == "neg" & runD$word == 2] <- ran_neg_words_n6[2]
+runD$word[runD$target == "tar6" & runD$condition == "neg" & runD$word == 3] <- ran_neg_words_n6[3]
+runD$word[runD$target == "tar6" & runD$condition == "neg" & runD$word == 4] <- ran_neg_words_n6[4]
+runD$word[runD$target == "tar6" & runD$condition == "neg" & runD$word == 5] <- ran_neg_words_n6[5]
+runD$word[runD$target == "tar6" & runD$condition == "neg" & runD$word == 6] <- ran_neg_words_n6[6]
+```
+
+
+
+```{r, names_runD}
+#Randomize the order of the names and assign each name to a target number
+random_names <- sample(names)
+
+target1 <- random_names[1]
+target2 <- random_names[2]
+target3 <- random_names[3]
+target4 <- random_names[4]
+target5 <- random_names[5]
+target6 <- random_names[6]
+
+#Export a text file that tracks the target order for each run
+export(as.data.frame(random_names), "target_order_runD.txt")
+
+#logical indexing to replace target positions in optseq output to names of participants
+runD$target[runD$target == "tar1"] <- target1
+runD$target[runD$target == "tar2"] <- target2
+runD$target[runD$target == "tar3"] <- target3
+runD$target[runD$target == "tar4"] <- target4
+runD$target[runD$target == "tar5"] <- target5
+runD$target[runD$target == "tar6"] <- target6
+
+```
+
+
+
+```{r, blank_cells_runD}
+#Fill in all blank cells with spaces so that psychopy will work correctly 
+runD$target[runD$target == ""] <- " "
+runD$word[is.na(runD$word)] <- " "
+```
+
+
+
+```{r, export_runD}
+export(runD, "../runD/runD.xlsx")
+```
+
+
+
+
+
+
+
+
+```{r, words_runE}
+#randomize the order of the 6 positive and 6 negative words for each of the 6 participants 
+#Using the first 6 positive and first 6 negative words for run E
+runE_pos_words <- pos_words$word[25:30]
+
+ran_pos_words_n1 <- sample(runE_pos_words)
+ran_pos_words_n2 <- sample(runE_pos_words)
+ran_pos_words_n3 <- sample(runE_pos_words)
+ran_pos_words_n4 <- sample(runE_pos_words)
+ran_pos_words_n5 <- sample(runE_pos_words)
+ran_pos_words_n6 <- sample(runE_pos_words)
+
+runE_neg_words <- neg_words$word[25:30]
+
+ran_neg_words_n1 <- sample(runE_neg_words)
+ran_neg_words_n2 <- sample(runE_neg_words)
+ran_neg_words_n3 <- sample(runE_neg_words)
+ran_neg_words_n4 <- sample(runE_neg_words)
+ran_neg_words_n5 <- sample(runE_neg_words)
+ran_neg_words_n6 <- sample(runE_neg_words)
+
+#target 1's positive and negative words logical index to replace what is in the valence column
+#Had to modify the optseq output to have pos1, pos3 .. etc for each target to make indexing possible 
+#You should only have to do this once at the initial set up of the experiment
+
+#target 1's positve and negative words
+runE$word[runE$target == "tar1" & runE$condition == "pos" & runE$word == 1] <- ran_pos_words_n1[1]
+runE$word[runE$target == "tar1" & runE$condition == "pos" & runE$word == 2] <- ran_pos_words_n1[2]
+runE$word[runE$target == "tar1" & runE$condition == "pos" & runE$word == 3] <- ran_pos_words_n1[3]
+runE$word[runE$target == "tar1" & runE$condition == "pos" & runE$word == 4] <- ran_pos_words_n1[4]
+runE$word[runE$target == "tar1" & runE$condition == "pos" & runE$word == 5] <- ran_pos_words_n1[5]
+runE$word[runE$target == "tar1" & runE$condition == "pos" & runE$word == 6] <- ran_pos_words_n1[6]
+
+runE$word[runE$target == "tar1" & runE$condition == "neg" & runE$word == 1] <- ran_neg_words_n1[1]
+runE$word[runE$target == "tar1" & runE$condition == "neg" & runE$word == 2] <- ran_neg_words_n1[2]
+runE$word[runE$target == "tar1" & runE$condition == "neg" & runE$word == 3] <- ran_neg_words_n1[3]
+runE$word[runE$target == "tar1" & runE$condition == "neg" & runE$word == 4] <- ran_neg_words_n1[4]
+runE$word[runE$target == "tar1" & runE$condition == "neg" & runE$word == 5] <- ran_neg_words_n1[5]
+runE$word[runE$target == "tar1" & runE$condition == "neg" & runE$word == 6] <- ran_neg_words_n1[6]
+
+#target 2's positve and negative words
+runE$word[runE$target == "tar2" & runE$condition == "pos" & runE$word == 1] <- ran_pos_words_n2[1]
+runE$word[runE$target == "tar2" & runE$condition == "pos" & runE$word == 2] <- ran_pos_words_n2[2]
+runE$word[runE$target == "tar2" & runE$condition == "pos" & runE$word == 3] <- ran_pos_words_n2[3]
+runE$word[runE$target == "tar2" & runE$condition == "pos" & runE$word == 4] <- ran_pos_words_n2[4]
+runE$word[runE$target == "tar2" & runE$condition == "pos" & runE$word == 5] <- ran_pos_words_n2[5]
+runE$word[runE$target == "tar2" & runE$condition == "pos" & runE$word == 6] <- ran_pos_words_n2[6]
+
+runE$word[runE$target == "tar2" & runE$condition == "neg" & runE$word == 1] <- ran_neg_words_n2[1]
+runE$word[runE$target == "tar2" & runE$condition == "neg" & runE$word == 2] <- ran_neg_words_n2[2]
+runE$word[runE$target == "tar2" & runE$condition == "neg" & runE$word == 3] <- ran_neg_words_n2[3]
+runE$word[runE$target == "tar2" & runE$condition == "neg" & runE$word == 4] <- ran_neg_words_n2[4]
+runE$word[runE$target == "tar2" & runE$condition == "neg" & runE$word == 5] <- ran_neg_words_n2[5]
+runE$word[runE$target == "tar2" & runE$condition == "neg" & runE$word == 6] <- ran_neg_words_n2[6]
+
+#target 3's positve and negative words
+runE$word[runE$target == "tar3" & runE$condition == "pos" & runE$word == 1] <- ran_pos_words_n3[1]
+runE$word[runE$target == "tar3" & runE$condition == "pos" & runE$word == 2] <- ran_pos_words_n3[2]
+runE$word[runE$target == "tar3" & runE$condition == "pos" & runE$word == 3] <- ran_pos_words_n3[3]
+runE$word[runE$target == "tar3" & runE$condition == "pos" & runE$word == 4] <- ran_pos_words_n3[4]
+runE$word[runE$target == "tar3" & runE$condition == "pos" & runE$word == 5] <- ran_pos_words_n3[5]
+runE$word[runE$target == "tar3" & runE$condition == "pos" & runE$word == 6] <- ran_pos_words_n3[6]
+
+runE$word[runE$target == "tar3" & runE$condition == "neg" & runE$word == 1] <- ran_neg_words_n3[1]
+runE$word[runE$target == "tar3" & runE$condition == "neg" & runE$word == 2] <- ran_neg_words_n3[2]
+runE$word[runE$target == "tar3" & runE$condition == "neg" & runE$word == 3] <- ran_neg_words_n3[3]
+runE$word[runE$target == "tar3" & runE$condition == "neg" & runE$word == 4] <- ran_neg_words_n3[4]
+runE$word[runE$target == "tar3" & runE$condition == "neg" & runE$word == 5] <- ran_neg_words_n3[5]
+runE$word[runE$target == "tar3" & runE$condition == "neg" & runE$word == 6] <- ran_neg_words_n3[6]
+
+#target 4's positve and negative words
+runE$word[runE$target == "tar4" & runE$condition == "pos" & runE$word == 1] <- ran_pos_words_n4[1]
+runE$word[runE$target == "tar4" & runE$condition == "pos" & runE$word == 2] <- ran_pos_words_n4[2]
+runE$word[runE$target == "tar4" & runE$condition == "pos" & runE$word == 3] <- ran_pos_words_n4[3]
+runE$word[runE$target == "tar4" & runE$condition == "pos" & runE$word == 4] <- ran_pos_words_n4[4]
+runE$word[runE$target == "tar4" & runE$condition == "pos" & runE$word == 5] <- ran_pos_words_n4[5]
+runE$word[runE$target == "tar4" & runE$condition == "pos" & runE$word == 6] <- ran_pos_words_n4[6]
+
+runE$word[runE$target == "tar4" & runE$condition == "neg" & runE$word == 1] <- ran_neg_words_n4[1]
+runE$word[runE$target == "tar4" & runE$condition == "neg" & runE$word == 2] <- ran_neg_words_n4[2]
+runE$word[runE$target == "tar4" & runE$condition == "neg" & runE$word == 3] <- ran_neg_words_n4[3]
+runE$word[runE$target == "tar4" & runE$condition == "neg" & runE$word == 4] <- ran_neg_words_n4[4]
+runE$word[runE$target == "tar4" & runE$condition == "neg" & runE$word == 5] <- ran_neg_words_n4[5]
+runE$word[runE$target == "tar4" & runE$condition == "neg" & runE$word == 6] <- ran_neg_words_n4[6]
+
+#target 5's positve and negative words
+runE$word[runE$target == "tar5" & runE$condition == "pos" & runE$word == 1] <- ran_pos_words_n5[1]
+runE$word[runE$target == "tar5" & runE$condition == "pos" & runE$word == 2] <- ran_pos_words_n5[2]
+runE$word[runE$target == "tar5" & runE$condition == "pos" & runE$word == 3] <- ran_pos_words_n5[3]
+runE$word[runE$target == "tar5" & runE$condition == "pos" & runE$word == 4] <- ran_pos_words_n5[4]
+runE$word[runE$target == "tar5" & runE$condition == "pos" & runE$word == 5] <- ran_pos_words_n5[5]
+runE$word[runE$target == "tar5" & runE$condition == "pos" & runE$word == 6] <- ran_pos_words_n5[6]
+
+runE$word[runE$target == "tar5" & runE$condition == "neg" & runE$word == 1] <- ran_neg_words_n5[1]
+runE$word[runE$target == "tar5" & runE$condition == "neg" & runE$word == 2] <- ran_neg_words_n5[2]
+runE$word[runE$target == "tar5" & runE$condition == "neg" & runE$word == 3] <- ran_neg_words_n5[3]
+runE$word[runE$target == "tar5" & runE$condition == "neg" & runE$word == 4] <- ran_neg_words_n5[4]
+runE$word[runE$target == "tar5" & runE$condition == "neg" & runE$word == 5] <- ran_neg_words_n5[5]
+runE$word[runE$target == "tar5" & runE$condition == "neg" & runE$word == 6] <- ran_neg_words_n5[6]
+
+#target 6's positve and negative words
+runE$word[runE$target == "tar6" & runE$condition == "pos" & runE$word == 1] <- ran_pos_words_n6[1]
+runE$word[runE$target == "tar6" & runE$condition == "pos" & runE$word == 2] <- ran_pos_words_n6[2]
+runE$word[runE$target == "tar6" & runE$condition == "pos" & runE$word == 3] <- ran_pos_words_n6[3]
+runE$word[runE$target == "tar6" & runE$condition == "pos" & runE$word == 4] <- ran_pos_words_n6[4]
+runE$word[runE$target == "tar6" & runE$condition == "pos" & runE$word == 5] <- ran_pos_words_n6[5]
+runE$word[runE$target == "tar6" & runE$condition == "pos" & runE$word == 6] <- ran_pos_words_n6[6]
+
+runE$word[runE$target == "tar6" & runE$condition == "neg" & runE$word == 1] <- ran_neg_words_n6[1]
+runE$word[runE$target == "tar6" & runE$condition == "neg" & runE$word == 2] <- ran_neg_words_n6[2]
+runE$word[runE$target == "tar6" & runE$condition == "neg" & runE$word == 3] <- ran_neg_words_n6[3]
+runE$word[runE$target == "tar6" & runE$condition == "neg" & runE$word == 4] <- ran_neg_words_n6[4]
+runE$word[runE$target == "tar6" & runE$condition == "neg" & runE$word == 5] <- ran_neg_words_n6[5]
+runE$word[runE$target == "tar6" & runE$condition == "neg" & runE$word == 6] <- ran_neg_words_n6[6]
+```
+
+
+
+```{r, names_runE}
+#Randomize the order of the names and assign each name to a target number
+random_names <- sample(names)
+
+target1 <- random_names[1]
+target2 <- random_names[2]
+target3 <- random_names[3]
+target4 <- random_names[4]
+target5 <- random_names[5]
+target6 <- random_names[6]
+
+#Export a text file that tracks the target order for each run
+export(as.data.frame(random_names), "target_order_runE.txt")
+
+#logical indexing to replace target positions in optseq output to names of participants
+runE$target[runE$target == "tar1"] <- target1
+runE$target[runE$target == "tar2"] <- target2
+runE$target[runE$target == "tar3"] <- target3
+runE$target[runE$target == "tar4"] <- target4
+runE$target[runE$target == "tar5"] <- target5
+runE$target[runE$target == "tar6"] <- target6
+
+```
+
+
+
+```{r, blank_cells_runE}
+#Fill in all blank cells with spaces so that psychopy will work correctly 
+runE$target[runE$target == ""] <- " "
+runE$word[is.na(runE$word)] <- " "
+```
+
+
+
+```{r, export_runE}
+export(runE, "../runE/runE.xlsx")
+```
